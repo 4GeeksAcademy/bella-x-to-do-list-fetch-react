@@ -1,0 +1,52 @@
+body{
+    background-color: #ffffff;
+}
+
+.title{
+    text-align: center;
+    margin-top: 20px;
+}
+
+.shade {
+    box-shadow: 10px 6px 10px 5px #12bbc1;
+}
+
+h1{
+    font-family: 'Courier New', Courier, monospace;
+}
+
+input {
+    border: none;
+    width: 80%;
+    padding: 10px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    text-align: center;
+    font-size: x-large;
+    font-family: 'Courier New', Courier, monospace;
+}
+
+.task-text{
+    font-size: x-large;
+    font-family: 'Courier New', Courier, monospace;
+    padding-top: 10px;
+    margin-left: 10px;
+    }
+
+.delete-button {
+    background: none;
+    border: none;
+    color: rgb(0, 0, 0);
+    font-size: 16px;
+}
+
+button:hover {
+    color: rgb(234, 16, 16);
+}
+
+.task-item {
+    border: 1px solid #000000;
+    border-radius: 1px;        
+    margin-bottom: 3px; 
+    margin-top: 3px; 
+}

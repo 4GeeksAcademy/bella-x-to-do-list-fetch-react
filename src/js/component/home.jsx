@@ -4,28 +4,29 @@ function Home() {
     const [tasks, setTasks] = useState([]);
     const [newTask, setNewTask] = useState("");
     
-    function addTask() {
+    // Using the arrow function syntax for consistency
+    const addTask = () => {
         if (newTask.trim() !== "") {
-            let newTasks = [...tasks, newTask];
+            const newTasks = [...tasks, newTask];
             setTasks(newTasks);
             setNewTask("");
         }
     }
 
-    function handleEnter(event) {
+    const handleEnter = (event) => {
         if (event.key === 'Enter') {
             addTask();
         }
     }
 
-    function deleteTask(taskIndex) {
+    const deleteTask = (taskIndex) => {
         const updatedTasks = tasks.filter((_, index) => index !== taskIndex);
         setTasks(updatedTasks);
     }
 
     return (
         <div className='title'>
-            <h1>To-Do List</h1>
+            <h1>To-Do List ☺</h1>
             <div className='container w-50 max-height shade text-center'>
                 <div>
                     <input 
@@ -36,12 +37,10 @@ function Home() {
                         placeholder="What's next?" 
                     />
                     {tasks.map((task, index) => (
-                        <div className='d-flex justify-content-between' key={index}>
+                        <div className='task-item d-flex justify-content-between' key={index}>
                             <p className='task-text'>{task}</p>
-                            <button 
-                                onClick={() => deleteTask(index)} 
-                                className="delete-button">
-                                X
+                            <button onClick={() => deleteTask(index)} className="delete-button">
+                                x
                             </button>
                         </div>
                     ))}
@@ -52,6 +51,7 @@ function Home() {
 }
 
 export default Home;
+
 
 
 
