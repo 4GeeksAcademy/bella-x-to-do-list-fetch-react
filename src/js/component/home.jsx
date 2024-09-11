@@ -44,7 +44,10 @@ function Home() {
                             </button>
                         </div>
                     ))}
-                </div>
+                </div>	
+  					<div className='footer'>
+                    <p>{tasks.length} items left</p>
+            	</div>
             </div>
         </div>
     );

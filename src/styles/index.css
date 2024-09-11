@@ -50,3 +50,7 @@ button:hover {
     margin-bottom: 3px; 
     margin-top: 3px; 
 }
+
+.footer {
+    font-family: 'Courier New', Courier, monospace;
+}
