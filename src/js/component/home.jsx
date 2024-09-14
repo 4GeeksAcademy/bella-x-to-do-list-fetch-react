@@ -1,9 +1,25 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
-function Home() {
+const Home = () => {
 	const [tasks, setTasks] = useState([]);
 	const [newTask, setNewTask] = useState("");
 
+	const getTasks = () => {
+		fetch('https://playground.4geeks.com/todo/users/bellaxgenevieve')
+			.then(response => {
+				if (!response.ok) {
+					throw Error(response.statusText);
+				}
+				return response.json();
+			})
+			.then(responseAsJson => {
+				// Update the tasks state with the fetched tasks
+				setTasks(responseAsJson.todos);
+			})
+			.catch(error => {
+				console.log('Looks like there was a problem: \n', error);
+			});
+	};
 
 	const addTask = () => {
 		if (newTask.trim() !== "") {
@@ -11,18 +27,18 @@ function Home() {
 			setTasks(newTasks);
 			setNewTask("");
 		}
-	}
+	};
 
 	const handleEnter = (event) => {
 		if (event.key === 'Enter') {
 			addTask();
 		}
-	}
+	};
 
 	const deleteTask = (taskIndex) => {
 		const updatedTasks = tasks.filter((_, index) => index !== taskIndex);
 		setTasks(updatedTasks);
-	}
+	};
 
 	return (
 		<div className='title'>
@@ -51,10 +67,6 @@ function Home() {
 			</div>
 		</div>
 	);
-}
+};
 
 export default Home;
-
-
-
-
