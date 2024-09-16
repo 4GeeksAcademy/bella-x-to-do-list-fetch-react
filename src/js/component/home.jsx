@@ -13,7 +13,7 @@ const Home = () => {
 				return response.json();
 			})
 			.then(responseAsJson => {
-				// Update the tasks state with the fetched tasks
+
 				setTasks(responseAsJson.todos);
 			})
 			.catch(error => {
