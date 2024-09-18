@@ -13,19 +13,92 @@ const Home = () => {
 				return response.json();
 			})
 			.then(responseAsJson => {
-
 				setTasks(responseAsJson.todos);
 			})
 			.catch(error => {
-				console.log('Looks like there was a problem: \n', error);
+				console.error('Error fetching tasks:', error);
 			});
 	};
 
-	const addTask = () => {
-		if (newTask.trim() !== "") {
-			const newTasks = [...tasks, newTask];
-			setTasks(newTasks);
-			setNewTask("");
+	const createTasks = () => {
+		const data = { label: newTask, done: false };  
+		fetch('https://playground.4geeks.com/todo/todos/bellaxgenevieve', {
+			method: 'POST',
+			body: JSON.stringify(data),
+			headers: {
+				'Content-Type': 'application/json'
+			}
+		})
+			.then(response => {
+				if (!response.ok) throw Error(response.statusText);
+				return response.json();
+			})
+			.then(() => {
+				getTasks();
+				setNewTask("");  
+			})
+			.catch(error => console.error('Error creating task:', error));
+	};
+
+	const deleteTasks = (id) => {
+		fetch(`https://playground.4geeks.com/todo/todos/${id}`, {
+			method: "DELETE",
+			headers: {
+				"Content-Type": "application/json"
+			},
+		})
+			.then(resp => {
+				if (resp.ok) {
+					getTasks();
+				} else {
+					console.error("Error deleting task:", resp.statusText);
+				}
+			})
+			.catch(error => console.error('Failed to delete task:', error));
+	};
+
+	const handleDeleteTasks = () => {
+		fetch('https://playground.4geeks.com/todo/users/bellaxgenevieve', {
+			method: "DELETE",
+			headers: {
+				"Content-Type": "application/json"
+			}
+		})
+			.then(resp => {
+				if (resp.ok) {
+					setTasks([]);
+					alert("All tasks have been cleared!");
+				} else {
+					console.error("Failed to clear all tasks:", resp.statusText);
+				}
+			})
+			.catch(error => console.error('Failed to clear all tasks:', error));
+	};
+
+	const handleCreateUser = () => {
+		fetch('https://playground.4geeks.com/todo/users/bellaxgenevieve', {
+			method: "POST",
+			headers: {
+				"Content-Type": "application/json"
+			}
+		})
+		.then(resp => {
+			if (resp.ok) {
+				console.log("User has been added to API");
+			} else {
+				console.error("Failed to add user:", resp.statusText);
+			}
+		})
+		.catch(error => console.error('Error creating user:', error));
+	};
+
+	useEffect(() => {
+		getTasks();
+	}, []);
+
+	const addTask = () => { 
+		if (newTask.trim()) {
+			createTasks();
 		}
 	};
 
@@ -33,11 +106,6 @@ const Home = () => {
 		if (event.key === 'Enter') {
 			addTask();
 		}
-	};
-
-	const deleteTask = (taskIndex) => {
-		const updatedTasks = tasks.filter((_, index) => index !== taskIndex);
-		setTasks(updatedTasks);
 	};
 
 	return (
@@ -52,14 +120,17 @@ const Home = () => {
 						type="text"
 						placeholder="What's next?"
 					/>
-					{tasks.map((task, index) => (
-						<div className='task-item d-flex justify-content-between' key={index}>
-							<p className='task-text'>{task}</p>
-							<button onClick={() => deleteTask(index)} className="delete-button">
+					{tasks.map((task) => (
+						<div className='task-item d-flex justify-content-between' key={task.id}>
+							<p className='task-text'>{task.label}</p> 
+							<button onClick={() => deleteTasks(task.id)} className="delete-button" aria-label="Delete task">
 								x
 							</button>
 						</div>
 					))}
+					<div className="d-flex justify-content-center">
+						<button className="btn btn-primary" onClick={handleDeleteTasks}>I'm lazy delete everything</button>
+					</div>
 				</div>
 				<div className='footer'>
 					<p>{tasks.length} items left</p>
@@ -70,3 +141,4 @@ const Home = () => {
 };
 
 export default Home;
+
